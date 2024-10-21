@@ -1,12 +1,24 @@
 import { successResponse } from "app/utility/response";
 import { APIGatewayProxyEventV2 } from "aws-lambda";
+import { UserRepository } from "app/repository/userRepository";
+import { autoInjectable } from "tsyringe";
 
+@autoInjectable()
 export class UserService {
-  constructor() {}
+  private repository: UserRepository;
+  constructor() {
+    this.repository = new UserRepository();
+  }
 
   // user creation, Validation & logic
 
   async CreateUser(event: APIGatewayProxyEventV2) {
+    const body = event.body;
+
+    console.log(body);
+
+    await this.repository.CreateUserOperation();
+
     return successResponse({ message: "response from create user" });
   }
 
@@ -56,7 +68,7 @@ export class UserService {
     return successResponse({ message: "Payment succesfully updated" });
   }
 
-  async DeletePaymentMethod(event: APIGatewayProxyEventV2) {
-    return successResponse({ message: "Payment succesfully deleted" });
+  async GetPaymentMethod(event: APIGatewayProxyEventV2) {
+    return successResponse({ message: "Payment succesfully fetched" });
   }
 }

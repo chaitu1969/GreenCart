@@ -5,6 +5,11 @@ frameworkVersion: "4"
 provider:
   name: aws
   runtime: nodejs20.x
+  versionFunctions: false
+  stage: "dev"
+  region: ap-south-2
+  httpApi:
+    cors: true
 
 functions:
   signup:
@@ -12,7 +17,7 @@ functions:
     events:
       - httpApi:
           path: /signup
-          method: get
+          method: post
   login:
     handler: app/handler.login
     events:
